@@ -1,0 +1,19 @@
+{
+  "name": "classic_games_page_backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "repository": "https://github.com/DanielVeraOrtiz/classic_games_page_backend.git",
+  "author": "Daniel <di.vera@uc.cl>",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^3.1.1",
+    "koa-body": "^7.0.1",
+    "koa-logger": "^4.0.0",
+    "nodemon": "^3.1.11"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  }
+}
