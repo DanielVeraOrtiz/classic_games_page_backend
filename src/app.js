@@ -1,8 +1,8 @@
-import koa from 'koa';
-import { koaBody } from 'koa-body';
-import KoaLogger from 'koa-logger';
-import router from './routes.js';
-import orm from './models/index.cjs';
+const koa = require('koa');
+const koaLogger = require('koa-logger');
+const { koaBody } = require('koa-body');
+const router = require('./routes.js');
+const orm = require('./models');
 
 // Crear instancia de koa.
 const app = new koa();
@@ -11,7 +11,7 @@ app.context.orm = orm;
 
 // Middlewares proporcionados por koa.
 // koa-logger mas logs en consola y koa-body parsea el body de la http request.
-app.use(KoaLogger());
+app.use(koaLogger());
 app.use(koaBody());
 
 // koa-router
@@ -27,4 +27,4 @@ app.use((ctx, next) => {
 // 	console.log("Iniciando app. Escuchando en el puerto 3000");
 // });
 
-export default app;
+module.exports = app;

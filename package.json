@@ -2,7 +2,6 @@
   "name": "classic_games_page_backend",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "repository": "https://github.com/DanielVeraOrtiz/classic_games_page_backend.git",
   "author": "Daniel <di.vera@uc.cl>",
   "license": "MIT",
