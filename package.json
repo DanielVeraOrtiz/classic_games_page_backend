@@ -7,10 +7,15 @@
   "author": "Daniel <di.vera@uc.cl>",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^17.2.3",
     "koa": "^3.1.1",
     "koa-body": "^7.0.1",
     "koa-logger": "^4.0.0",
-    "nodemon": "^3.1.11"
+    "koa-router": "^14.0.0",
+    "nodemon": "^3.1.11",
+    "pg": "^8.16.3",
+    "sequelize": "^6.37.7",
+    "sequelize-cli": "^6.6.3"
   },
   "scripts": {
     "start": "node src/index.js",
