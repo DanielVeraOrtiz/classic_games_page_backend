@@ -2,10 +2,12 @@ const app = require('./app');
 const db = require('./models/index.js');
 const dotenv = require('dotenv');
 
+// Para las variables del .env
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
+// Aqui esta el listen de koa cuando pasa las otras fases.
 db.sequelize
   .authenticate()
   .then(() => {

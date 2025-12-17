@@ -7,6 +7,9 @@ const orm = require('./models');
 // Crear instancia de koa.
 const app = new koa();
 
+// Koa permite extender su contexto (ctx). Aquí se expone el ORM
+// en ctx.orm para que los routers accedan a los modelos sin
+// importarlos directamente. Hoy es Sequelize, pero podría ser otro ORM.
 app.context.orm = orm;
 
 // Middlewares proporcionados por koa.
@@ -21,10 +24,5 @@ app.use(router.routes());
 app.use((ctx, next) => {
 	ctx.body = "Hola Mundo";
 });
-
-// Hace que el servidor escuche en el puerto 3000.
-// app.listen(3000, () => {
-// 	console.log("Iniciando app. Escuchando en el puerto 3000");
-// });
 
 module.exports = app;
