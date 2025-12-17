@@ -17,9 +17,32 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   User.init({
-    username: DataTypes.STRING,
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    username: {
+      type: DataTypes.STRING,
+      validate: {
+        isAlphanumeric: {
+          msg: 'Username musb be alphanumeric'
+        }
+      }
+    },
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: {
+          msg: 'mail must have email format'
+        }
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      validate: {
+        isValidPassword(value) {
+          if (!value.match(/[a-z]/) || !value.match(/[0-9]/) || !value.match(/[@$!%*?&]/)) {
+            throw new Error('The password must contain at least a letter, one number and one special character');
+          }
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'User',
