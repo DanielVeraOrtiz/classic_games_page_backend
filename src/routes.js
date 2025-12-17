@@ -1,6 +1,7 @@
 const Router = require('koa-router');
 const characters = require('./routes/characters.js');
 const users = require('./routes/users.js');
+const authRoutes = require('./routes/authentication.js');
 
 // Se define el router de koa y que use las rutas definidas para cada modelo
 // que al final logran mapear el path de la request a un trozo de codigo con el comportamiento
@@ -8,7 +9,6 @@ const users = require('./routes/users.js');
 const router = new Router();
 router.use('/characters', characters.routes());
 router.use('/users', users.routes());
-
-
+router.use(authRoutes.routes());
 
 module.exports = router;
