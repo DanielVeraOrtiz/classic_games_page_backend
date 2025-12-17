@@ -1,11 +1,12 @@
 const Router = require('koa-router');
-var jwt = require('jsonwebtoken');
+var jwt = require('jsonwebtoken'); // Para firmar tokens
 const { User } = require('../models');
 const router = new Router();
 const dotenv = require('dotenv');
 
 dotenv.config();
 
+// Si no existe ya el usuario, entonces que lo cree
 router.post('authentication.signup', '/signup', async (ctx) => {
     try {
         const authInfo = ctx.request.body;
@@ -25,19 +26,41 @@ router.post('authentication.signup', '/signup', async (ctx) => {
             password: authInfo.password,
         });
 
-        ctx.body = {
-            username: user.username,
-            email: user.email,
-        }
-        ctx.status = 201;
+        // Payload JWT - Cambiado para que devuelva el JWT
+        const payload = {
+            scope: ['user'],
+        };
 
+        const secret = process.env.JWT_SECRET;
+        
+        // Opciones del token
+        const options = {
+            subject: user.id.toString(), // "sub": id del usuario
+            expiresIn: '24h'              // expiración
+        };
+
+        const token = jwt.sign(payload, secret, options);
+
+        ctx.status = 201;
+        ctx.body = {
+            user: {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+            },
+            access_token: token,
+            token_type: 'Bearer',
+            expires_in: 24 * 60 * 60,
+        };
     } catch (err) {
-        console.error('Error: ', err);
-        ctx.body = err;
+        ctx.body = { error: 'Could not create user' }; // Que no filtre errores con informacion sensible
         ctx.status = 400;
     }
 })
 
+
+// De existir el usuario y coincidan las contrasenas, entonces con jsonwebtoken vamos a firmar el jwt
+// que se lo entregaremos en la response con una vigencia de 24 horas.
 router.post("authentication.login", "/login", async (ctx) => {
     try {
         const authInfo = ctx.request.body
@@ -84,7 +107,7 @@ router.post("authentication.login", "/login", async (ctx) => {
         };
     }
     catch(error) {
-        ctx.body = error;
+        ctx.body = { error: 'Could not sign in' };
         ctx.status = 400;
         return;
     }
