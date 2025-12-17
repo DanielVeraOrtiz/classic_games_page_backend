@@ -3,6 +3,7 @@ var jwt = require('jsonwebtoken'); // Para firmar tokens
 const { User } = require('../models');
 const router = new Router();
 const dotenv = require('dotenv');
+const bcrypt = require('bcrypt');
 
 dotenv.config();
 
@@ -20,10 +21,13 @@ router.post('authentication.signup', '/signup', async (ctx) => {
             return;
         }
 
+        const saltRounds = 10; // Como cuantas veces la hashea, entre mas es mas seguro, pero mas lento
+        const hashedPassword = await bcrypt.hash(authInfo.password, saltRounds);
+
         const user = await User.create({
             username: authInfo.username,
             email: authInfo.email,
-            password: authInfo.password,
+            password: hashedPassword,
         });
 
         // Payload JWT - Cambiado para que devuelva el JWT
@@ -53,6 +57,7 @@ router.post('authentication.signup', '/signup', async (ctx) => {
             expires_in: 24 * 60 * 60,
         };
     } catch (err) {
+        console.error('Error: ', err);
         ctx.body = { error: 'Could not create user' }; // Que no filtre errores con informacion sensible
         ctx.status = 400;
     }
@@ -72,7 +77,9 @@ router.post("authentication.login", "/login", async (ctx) => {
             return;
         }
 
-        if (!(user.password == authInfo.password)) {
+        const validPassword = await bcrypt.compare(authInfo.password, user.password); // Es una promesa
+
+        if (!validPassword) {
             ctx.body = "Incorrect email or password";
             ctx.status = 400;
             return;

@@ -7,7 +7,7 @@ module.exports = {
       {
         username: 'demo_user',
         email: 'demo@example.com',
-        password: 'password123',
+        password: 'password123', // Hay que usar bcrypt
         createdAt: new Date(),
         updatedAt: new Date()
       },
