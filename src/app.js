@@ -3,6 +3,7 @@ const koaLogger = require('koa-logger');
 const { koaBody } = require('koa-body');
 const router = require('./routes.js');
 const orm = require('./models');
+const cors = require('@koa/cors');
 
 // Crear instancia de koa.
 const app = new koa();
@@ -11,6 +12,9 @@ const app = new koa();
 // en ctx.orm para que los routers accedan a los modelos sin
 // importarlos directamente. Hoy es Sequelize, pero podría ser otro ORM.
 app.context.orm = orm;
+
+// Cors para poder acceder desde el frontend
+app.use(cors());
 
 // Middlewares proporcionados por koa.
 // koa-logger mas logs en consola y koa-body parsea el body de la http request.
