@@ -1,6 +1,7 @@
 const Router = require('koa-router');
 // Mejor importar el modelo que usar ctx.orm.model
 const { User } = require('../models');
+const { authMiddleware } = require('../lib/auth/jwt');
 const router = new Router();
 
 router.get('users.list', '/', async (ctx) => {
@@ -25,5 +26,13 @@ router.get('users.show', '/:id', async (ctx) => {
         ctx.status = 400;
     }
 });
+
+router.get('/auth/me', authMiddleware, (ctx) => {
+    ctx.body = {
+        id: ctx.state.user.sub,
+        scope: ctx.state.user.scope,
+    };
+    ctx.status = 200;
+})
 
 module.exports = router;
