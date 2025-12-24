@@ -16,7 +16,7 @@ router.post('authentication.signup', '/signup', async (ctx) => {
         });
 
         if (existingUser) {
-            ctx.body = `The user by the email '${authInfo.email}' already exists`;
+            ctx.body = `The user by that email already exists`;
             ctx.status = 400;
             return;
         }
@@ -58,7 +58,7 @@ router.post('authentication.signup', '/signup', async (ctx) => {
         };
     } catch (err) {
         console.error('Error: ', err);
-        ctx.body = { error: 'Could not create user' }; // Que no filtre errores con informacion sensible
+        ctx.body = err.errors[0].message; // Que no filtre errores con informacion sensible
         ctx.status = 400;
     }
 })
@@ -114,7 +114,7 @@ router.post("authentication.login", "/login", async (ctx) => {
         };
     }
     catch(error) {
-        ctx.body = { error: 'Could not sign in' };
+        ctx.body = 'Could not sign in';
         ctx.status = 400;
         return;
     }
