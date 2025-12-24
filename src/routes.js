@@ -5,6 +5,7 @@ const authRoutes = require('./routes/authentication.js');
 const jwtMiddleware = require('koa-jwt'); // Para proteger rutas
 const dotenv = require('dotenv');
 const scopeProtectedRoutes = require('./routes/scopeExample.js');
+const favorites = require('./routes/favorites.js');
 
 dotenv.config();
 // Se define el router de koa y que use las rutas definidas para cada modelo
@@ -19,5 +20,6 @@ router.use(authRoutes.routes());
 router.use(jwtMiddleware({secret: process.env.JWT_SECRET})); // Esta
 router.use('/users', users.routes());
 router.use('/scope-example', scopeProtectedRoutes.routes());
+router.use('/favorites', favorites.routes());
 
 module.exports = router;
