@@ -1,13 +1,14 @@
 const Router = require('koa-router');
 // Mejor importar el modelo que usar ctx.orm.model
-const { User, Favorite } = require('../models');
+const { User, Favorite, Game } = require('../models');
 const { authMiddleware } = require('../lib/auth/jwt');
 const router = new Router();
 
 router.get('/me', authMiddleware, async (ctx) => {
     try {
         const userFavorites = await Favorite.findAll({
-            where: {user_id: ctx.state.user.sub}
+            where: {user_id: ctx.state.user.sub},
+            include: {model: Game, as: 'game'}
         });
         ctx.body = userFavorites;
         ctx.status = 200;
@@ -19,10 +20,14 @@ router.get('/me', authMiddleware, async (ctx) => {
 
 router.get('/:gameid', authMiddleware, async (ctx) => {
     try {
-        const favorite = Favorite.findOne({ where: {
+        const favorite = await Favorite.findOne({ where: {
             user_id: ctx.state.user.sub,
-            game_id: ctx.params.id,
+            game_id: ctx.params.gameid,
         }});
+        console.log(favorite);
+        if (!favorite) {
+            ctx.throw(404, 'Favorite not found');
+        }
         ctx.body = favorite;
         ctx.status = 201;
     } catch (error) {
@@ -33,7 +38,19 @@ router.get('/:gameid', authMiddleware, async (ctx) => {
 
 router.post('/', authMiddleware, async (ctx) => {
     try {
-        const favorite = await Favorite.create( ctx.request.body );
+        const [game, createdGame] = await Game.findOrCreate({
+            where: {id: ctx.request.body.game_id},
+            defaults: {
+                id: ctx.request.body.game_id,
+                title: ctx.request.body.title,
+                category: ctx.request.body.category,
+                imgUrl: ctx.request.body.imgUrl,
+            },
+        });
+        const favorite = await Favorite.create( {
+            game_id: ctx.request.body.game_id,
+            user_id: ctx.request.body.user_id,
+        } );
         ctx.body = favorite;
         ctx.status = 200;
     } catch (err) {

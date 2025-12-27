@@ -108,6 +108,7 @@ router.post("authentication.login", "/login", async (ctx) => {
 
         ctx.status = 200;
         ctx.body = {
+        user: user,
         access_token: token,
         token_type: 'Bearer',
         expires_in: 24 * 60 * 60,

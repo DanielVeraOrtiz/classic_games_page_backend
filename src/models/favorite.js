@@ -15,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'user',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
+      }),
+      this.belongsTo(models.Game, {
+        foreignKey: 'game_id',
+        as: 'game',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       })
     }
   }
