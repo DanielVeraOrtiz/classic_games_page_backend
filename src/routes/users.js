@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 // Mejor importar el modelo que usar ctx.orm.model
-const { User } = require('../models');
+const { User, Favorite } = require('../models');
 const { authMiddleware } = require('../lib/auth/jwt');
 const router = new Router();
 
@@ -27,8 +27,10 @@ router.get('users.show', '/:id', async (ctx) => {
     }
 });
 
-router.get('/auth/me', authMiddleware, (ctx) => {
+router.get('/auth/me', authMiddleware, async (ctx) => {
+    const user = await User.findOne({ where: {id: ctx.state.user.sub}});
     ctx.body = {
+        user: user,
         id: ctx.state.user.sub,
         scope: ctx.state.user.scope,
     };

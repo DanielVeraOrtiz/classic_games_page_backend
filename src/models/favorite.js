@@ -12,16 +12,36 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       this.belongsTo(models.User, {
         foreignKey: 'user_id',
-        as: 'user'
+        as: 'user',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      }),
+      this.belongsTo(models.Game, {
+        foreignKey: 'game_id',
+        as: 'game',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       })
     }
   }
   Favorite.init({
-    user_id: DataTypes.INTEGER,
-    game_id: DataTypes.INTEGER
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    game_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    }
   }, {
     sequelize,
     modelName: 'Favorite',
+    indexes: [
+      {
+        unique: true,
+        fields: ['user_id', 'game_id'],
+      }
+    ]
   });
   return Favorite;
 };
