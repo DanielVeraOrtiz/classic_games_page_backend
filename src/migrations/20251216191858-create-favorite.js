@@ -7,39 +7,39 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       user_id: {
         type: Sequelize.INTEGER,
-        references: { 
+        references: {
           model: 'Users',
-          key: 'id'
+          key: 'id',
         },
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
-        allowNull: false
+        allowNull: false,
       },
       game_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Games',
-          key: 'id'
+          key: 'id',
         },
         onDelete: 'CASCADE',
-        onUpdate: "CASCADE"
+        onUpdate: 'CASCADE',
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Favorites');
-  }
+  },
 };
