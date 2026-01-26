@@ -1,17 +1,17 @@
-const Router = require("koa-router");
+const Router = require('koa-router');
 
-const router = new Router()
+const router = new Router();
 
 const characters = [
-    {
-        "name": "Bart Simpson",
-        "age": 12,
-        "description": "Ni idea"
-    }
+  {
+    name: 'Bart Simpson',
+    age: 12,
+    description: 'Ni idea',
+  },
 ];
 
 router.get('characters.show', '/show', async (ctx) => {
-    ctx.body = characters;
-})
+  ctx.body = characters;
+});
 
 module.exports = router;

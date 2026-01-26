@@ -5,36 +5,36 @@ const { authMiddleware } = require('../lib/auth/jwt');
 const router = new Router();
 
 router.get('users.list', '/', async (ctx) => {
-    try {
-        const users = await User.findAll();
-        ctx.body = users;
-        ctx.status = 200;
-    } catch (err) {
-        ctx.body = err;
-        ctx.status = 400;
-    }
+  try {
+    const users = await User.findAll();
+    ctx.body = users;
+    ctx.status = 200;
+  } catch (err) {
+    ctx.body = err;
+    ctx.status = 400;
+  }
 });
 
 router.get('users.show', '/:id', async (ctx) => {
-    try {
-        // const user = await User.findByPk(ctx.params.id);
-        const user = await User.findOne({ where:{id:ctx.params.id} });
-        ctx.body = user;
-        ctx.status = 200;
-    } catch (err) {
-        ctx.body = err;
-        ctx.status = 400;
-    }
+  try {
+    // const user = await User.findByPk(ctx.params.id);
+    const user = await User.findOne({ where: { id: ctx.params.id } });
+    ctx.body = user;
+    ctx.status = 200;
+  } catch (err) {
+    ctx.body = err;
+    ctx.status = 400;
+  }
 });
 
 router.get('/auth/me', authMiddleware, async (ctx) => {
-    const user = await User.findOne({ where: {id: ctx.state.user.sub}});
-    ctx.body = {
-        user: user,
-        id: ctx.state.user.sub,
-        scope: ctx.state.user.scope,
-    };
-    ctx.status = 200;
-})
+  const user = await User.findOne({ where: { id: ctx.state.user.sub } });
+  ctx.body = {
+    user: user,
+    id: ctx.state.user.sub,
+    scope: ctx.state.user.scope,
+  };
+  ctx.status = 200;
+});
 
 module.exports = router;

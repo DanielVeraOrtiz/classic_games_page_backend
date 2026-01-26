@@ -17,7 +17,7 @@ router.use('/characters', characters.routes());
 router.use(authRoutes.routes());
 
 // Las rutas protegidas empiezan desde la siguiente linea de codigo
-router.use(jwtMiddleware({secret: process.env.JWT_SECRET})); // Esta
+router.use(jwtMiddleware({ secret: process.env.JWT_SECRET })); // Esta
 router.use('/users', users.routes());
 router.use('/scope-example', scopeProtectedRoutes.routes());
 router.use('/favorites', favorites.routes());
