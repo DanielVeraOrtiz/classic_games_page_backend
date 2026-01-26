@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 // Mejor importar el modelo que usar ctx.orm.model
-const { User, Favorite, Game } = require('../models');
+const { Favorite, Game } = require('../models');
 const { authMiddleware } = require('../lib/auth/jwt');
 const router = new Router();
 
