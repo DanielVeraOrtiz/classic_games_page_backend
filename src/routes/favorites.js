@@ -70,7 +70,7 @@ router.delete('/:id', async (ctx) => {
 
     if (deletedCount === 0) {
       ctx.status = 404;
-      ctx.body = { error: 'Favorite not fount' };
+      ctx.body = { error: 'Favorite not found' };
       return;
     }
 

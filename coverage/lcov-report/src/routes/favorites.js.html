@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/40</span>
+                <span class='fraction'>0/38</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/40</span>
+                <span class='fraction'>0/38</span>
             </div>
         
             
@@ -147,11 +147,8 @@
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
-<a name='L85'></a><a href='#L85'>85</a>
-<a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L85'></a><a href='#L85'>85</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -177,7 +174,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -237,11 +233,10 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Router = <span class="cstat-no" title="statement not covered" >require('koa-router');</span>
 // Mejor importar el modelo que usar ctx.orm.model
-const { User, Favorite, Game } = <span class="cstat-no" title="statement not covered" >require('../models');</span>
-const { authMiddleware } = <span class="cstat-no" title="statement not covered" >require('../lib/auth/jwt');</span>
+const { Favorite, Game } = <span class="cstat-no" title="statement not covered" >require('../models');</span>
 const router = <span class="cstat-no" title="statement not covered" >new Router();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.get('/me', authMiddleware, <span class="fstat-no" title="function not covered" >as</span>ync (ctx) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >router.get('/me', <span class="fstat-no" title="function not covered" >as</span>ync (ctx) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const userFavorites = <span class="cstat-no" title="statement not covered" >await Favorite.findAll({</span>
       where: { user_id: ctx.state.user.sub },
@@ -255,7 +250,7 @@ const router = <span class="cstat-no" title="statement not covered" >new Router(
   }
 });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.get('/:gameid', authMiddleware, <span class="fstat-no" title="function not covered" >as</span>ync (ctx) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >router.get('/:gameid', <span class="fstat-no" title="function not covered" >as</span>ync (ctx) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const favorite = <span class="cstat-no" title="statement not covered" >await Favorite.findOne({</span>
       where: {
@@ -263,7 +258,6 @@ const router = <span class="cstat-no" title="statement not covered" >new Router(
         game_id: ctx.params.gameid,
       },
     });
-<span class="cstat-no" title="statement not covered" >    console.log(favorite);</span>
 <span class="cstat-no" title="statement not covered" >    if (!favorite) {</span>
 <span class="cstat-no" title="statement not covered" >      ctx.throw(404, 'Favorite not found');</span>
     }
@@ -275,7 +269,7 @@ const router = <span class="cstat-no" title="statement not covered" >new Router(
   }
 });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.post('/', authMiddleware, <span class="fstat-no" title="function not covered" >as</span>ync (ctx) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >router.post('/', <span class="fstat-no" title="function not covered" >as</span>ync (ctx) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const [game, createdGame] = <span class="cstat-no" title="statement not covered" >await Game.findOrCreate({</span>
       where: { id: ctx.request.body.game_id },
@@ -298,7 +292,7 @@ const router = <span class="cstat-no" title="statement not covered" >new Router(
   }
 });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.delete('/:id', authMiddleware, <span class="fstat-no" title="function not covered" >as</span>ync (ctx) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >router.delete('/:id', <span class="fstat-no" title="function not covered" >as</span>ync (ctx) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const deletedCount = <span class="cstat-no" title="statement not covered" >await Favorite.destroy({</span>
       where: {
@@ -309,7 +303,7 @@ const router = <span class="cstat-no" title="statement not covered" >new Router(
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (deletedCount === 0) {</span>
 <span class="cstat-no" title="statement not covered" >      ctx.status = 404;</span>
-<span class="cstat-no" title="statement not covered" >      ctx.body = { error: 'Favorite not fount' };</span>
+<span class="cstat-no" title="statement not covered" >      ctx.body = { error: 'Favorite not found' };</span>
 <span class="cstat-no" title="statement not covered" >      return;</span>
     }
 &nbsp;
@@ -328,7 +322,7 @@ const router = <span class="cstat-no" title="statement not covered" >new Router(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-26T15:50:40.541Z
+                at 2026-01-26T20:54:07.764Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

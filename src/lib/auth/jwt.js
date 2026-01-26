@@ -1,7 +1,4 @@
 // const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-
-dotenv.config();
 
 // A pesar de que venia de la capsula, al final no usa try y catch lo cual no capta los problemas de verify
 // const getJWTScope = (token) => {
