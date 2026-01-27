@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       username: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
           isAlphanumeric: {
             msg: 'Username musb be alphanumeric',
@@ -26,6 +27,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       email: {
         type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
         validate: {
           isEmail: {
             msg: 'mail must have email format',
@@ -34,6 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       password: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
           isValidPassword(value) {
             if (!value.match(/[a-z]/) || !value.match(/[0-9]/) || !value.match(/[@$!%*?&]/)) {
