@@ -1,4 +1,7 @@
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 // A pesar de que venia de la capsula, al final no usa try y catch lo cual no capta los problemas de verify
 // const getJWTScope = (token) => {
@@ -40,4 +43,28 @@ const isAdmin = async (ctx, next) => {
 //   }
 // };
 
-module.exports = { isAdmin };
+const createToken = (arrayScope, userId, expiresIn) => {
+  // ===================== JWT =====================
+  // Payload: información que se incluye dentro del token.
+  // NO está cifrada, solo firmada.
+  const payload = {
+    scope: arrayScope,
+  };
+
+  // Secret: clave privada del backend (NUNCA va al cliente)
+  const secret = process.env.JWT_SECRET;
+
+  // Opciones del token
+  const options = {
+    subject: userId.toString(), // "sub": id del usuario
+    expiresIn: expiresIn, // expiración
+  };
+
+  // Firma del JWT:
+  // header + payload + secret -> signature
+  const token = jwt.sign(payload, secret, options);
+  return token;
+  // ==============================================
+};
+
+module.exports = { isAdmin, createToken };

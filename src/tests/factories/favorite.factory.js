@@ -1,12 +1,20 @@
 const { Favorite } = require('../../models');
 
 async function createFavorite(userId, gameId) {
-  const favorite = Favorite.create({
+  return await Favorite.create({
     user_id: userId,
     game_id: gameId,
   });
-
-  return favorite;
 }
 
-module.exports = { createFavorite };
+async function destroyFavorite(favoriteId) {
+  return await Favorite.destroy({
+    where: { id: favoriteId },
+  });
+}
+
+async function findFavorite(favoriteId) {
+  return await Favorite.findByPk(favoriteId);
+}
+
+module.exports = { createFavorite, destroyFavorite, findFavorite };

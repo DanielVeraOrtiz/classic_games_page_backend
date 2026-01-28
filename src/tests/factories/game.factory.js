@@ -13,7 +13,17 @@ function buildGame(overrides = {}) {
 }
 
 async function createGame(overrides = {}) {
-  return Game.create(buildGame(overrides));
+  return await Game.create(buildGame(overrides));
 }
 
-module.exports = { buildGame, createGame };
+async function destroyGame(gameId) {
+  return await Game.destroy({
+    where: { id: gameId },
+  });
+}
+
+async function findGame(gameId) {
+  return await Game.findByPk(gameId);
+}
+
+module.exports = { buildGame, createGame, destroyGame, findGame };

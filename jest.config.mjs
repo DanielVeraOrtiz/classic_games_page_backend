@@ -12,6 +12,7 @@ export default {
     '!src/seeders/**',
     '!src/config/**',
     '!src/models/index.js',
+    '!src/tests/factories/**',
   ],
 
   coverageThreshold: {

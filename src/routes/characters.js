@@ -11,6 +11,8 @@ const characters = [
 ];
 
 router.get('characters.show', '/show', async (ctx) => {
+  ctx.type = 'application/json';
+  ctx.status = 200;
   ctx.body = characters;
 });
 

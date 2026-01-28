@@ -1,9 +1,9 @@
 const Router = require('koa-router');
-var jwt = require('jsonwebtoken'); // Para firmar tokens
 const { User } = require('../models');
 const router = new Router();
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
+const { createToken } = require('../lib/auth/jwt');
 
 dotenv.config();
 
@@ -15,6 +15,9 @@ router.post('authentication.signup', '/signup', async (ctx) => {
       where: { email: authInfo.email },
     });
 
+    // test de bcrypt es innecesario, pero la validacion de la bdd de password
+    // deberia hacerse aqui, porque en la bdd se guarda hashedPassword.
+    // Entonces seria hacer una funcion, ponerla aqui y testearla por fuera con UT.
     if (existingUser) {
       ctx.body = `The user by that email already exists`;
       ctx.status = 400;
@@ -30,20 +33,7 @@ router.post('authentication.signup', '/signup', async (ctx) => {
       password: hashedPassword,
     });
 
-    // Payload JWT - Cambiado para que devuelva el JWT
-    const payload = {
-      scope: ['user'],
-    };
-
-    const secret = process.env.JWT_SECRET;
-
-    // Opciones del token
-    const options = {
-      subject: user.id.toString(), // "sub": id del usuario
-      expiresIn: '24h', // expiración
-    };
-
-    const token = jwt.sign(payload, secret, options);
+    const token = createToken(['user'], user.id, '24h');
 
     ctx.status = 201;
     ctx.body = {
@@ -57,7 +47,6 @@ router.post('authentication.signup', '/signup', async (ctx) => {
       expires_in: 24 * 60 * 60,
     };
   } catch (err) {
-    console.error('Error: ', err);
     ctx.body = err.errors[0].message; // Que no filtre errores con informacion sensible
     ctx.status = 400;
   }
@@ -71,7 +60,7 @@ router.post('authentication.login', '/login', async (ctx) => {
     const user = await User.findOne({ where: { email: authInfo.email } });
 
     if (!user) {
-      ctx.body = `The user by the email '${authInfo.email}' was not found`;
+      ctx.body = `Incorrect email or password`;
       ctx.status = 400;
       return;
     }
@@ -84,26 +73,7 @@ router.post('authentication.login', '/login', async (ctx) => {
       return;
     }
 
-    // ===================== JWT =====================
-    // Payload: información que se incluye dentro del token.
-    // NO está cifrada, solo firmada.
-    const payload = {
-      scope: ['user'],
-    };
-
-    // Secret: clave privada del backend (NUNCA va al cliente)
-    const secret = process.env.JWT_SECRET;
-
-    // Opciones del token
-    const options = {
-      subject: user.id.toString(), // "sub": id del usuario
-      expiresIn: '24h', // expiración
-    };
-
-    // Firma del JWT:
-    // header + payload + secret -> signature
-    const token = jwt.sign(payload, secret, options);
-    // ==============================================
+    const token = createToken(['user'], user.id, '24h');
 
     ctx.status = 200;
     ctx.body = {
