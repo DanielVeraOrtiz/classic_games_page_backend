@@ -9,6 +9,12 @@ router.get('/me', async (ctx) => {
       where: { user_id: ctx.state.user.sub },
       include: { model: Game, as: 'game' },
     });
+    if (userFavorites.length === 0) {
+      ctx.status = 400;
+      ctx.body = 'Favorites not found';
+      return;
+    }
+
     ctx.body = userFavorites;
     ctx.status = 200;
   } catch (err) {
@@ -29,7 +35,7 @@ router.get('/:gameid', async (ctx) => {
       ctx.throw(404, 'Favorite not found');
     }
     ctx.body = favorite;
-    ctx.status = 201;
+    ctx.status = 200;
   } catch (error) {
     ctx.body = error;
     ctx.status = 400;
@@ -74,7 +80,8 @@ router.delete('/:id', async (ctx) => {
       return;
     }
 
-    ctx.status = 204;
+    ctx.status = 200;
+    ctx.body = deletedCount;
   } catch (err) {
     ctx.body = { error: 'Internal server error' };
     ctx.status = 500;

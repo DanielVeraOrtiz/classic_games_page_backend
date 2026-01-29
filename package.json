@@ -37,7 +37,7 @@
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
-    "test": "NODE_ENV=test sequelize db:migrate && jest --verbose --runInBand",
+    "test": "NODE_ENV=test sequelize db:migrate && jest --verbose --silent --runInBand",
     "coverage": "NODE_ENV=test sequelize db:migrate && jest --coverage --silent --runInBand",
     "test:watch": "npm run test -- --watch",
     "test:watch:all": "npm run test -- --watchAll"

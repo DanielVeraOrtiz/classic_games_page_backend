@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/15</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/15</span>
+                <span class='fraction'>15/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -86,52 +86,52 @@
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Router = <span class="cstat-no" title="statement not covered" >require('koa-router');</span>
-const characters = <span class="cstat-no" title="statement not covered" >require('./routes/characters.js');</span>
-const users = <span class="cstat-no" title="statement not covered" >require('./routes/users.js');</span>
-const authRoutes = <span class="cstat-no" title="statement not covered" >require('./routes/authentication.js');</span>
-const jwtMiddleware = <span class="cstat-no" title="statement not covered" >require('koa-jwt');</span> // Para proteger rutas
-const dotenv = <span class="cstat-no" title="statement not covered" >require('dotenv');</span>
-const favorites = <span class="cstat-no" title="statement not covered" >require('./routes/favorites.js');</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Router = require('koa-router');
+const characters = require('./routes/characters.js');
+const users = require('./routes/users.js');
+const authRoutes = require('./routes/authentication.js');
+const jwtMiddleware = require('koa-jwt'); // Para proteger rutas
+const dotenv = require('dotenv');
+const favorites = require('./routes/favorites.js');
 &nbsp;
-<span class="cstat-no" title="statement not covered" >dotenv.config();</span>
+dotenv.config();
 // Se define el router de koa y que use las rutas definidas para cada modelo
 // que al final logran mapear el path de la request a un trozo de codigo con el comportamiento
 // especifico buscado.
 &nbsp;
-const router = <span class="cstat-no" title="statement not covered" >new Router();</span>
-<span class="cstat-no" title="statement not covered" >router.use('/characters', characters.routes());</span>
-<span class="cstat-no" title="statement not covered" >router.use(authRoutes.routes());</span>
+const router = new Router();
+router.use('/characters', characters.routes());
+router.use(authRoutes.routes());
 &nbsp;
 // Las rutas protegidas empiezan desde la siguiente linea de codigo
-<span class="cstat-no" title="statement not covered" >router.use(jwtMiddleware({ secret: process.env.JWT_SECRET })); </span>// Esta
-<span class="cstat-no" title="statement not covered" >router.use('/users', users.routes());</span>
-<span class="cstat-no" title="statement not covered" >router.use('/favorites', favorites.routes());</span>
+router.use(jwtMiddleware({ secret: process.env.JWT_SECRET })); // Esta
+router.use('/users', users.routes());
+router.use('/favorites', favorites.routes());
 &nbsp;
-<span class="cstat-no" title="statement not covered" >module.exports = router;</span>
+module.exports = router;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -139,7 +139,7 @@ const router = <span class="cstat-no" title="statement not covered" >new Router(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-28T19:03:08.004Z
+                at 2026-01-29T18:59:39.081Z
             </div>
         <script src="../prettify.js"></script>
         <script>

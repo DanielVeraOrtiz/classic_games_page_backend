@@ -29,6 +29,12 @@ router.get('users.show', '/:id', isAdmin, async (ctx) => {
 
 router.get('/auth/me', async (ctx) => {
   const user = await User.findOne({ where: { id: ctx.state.user.sub } });
+
+  if (!user) {
+    ctx.body = 'No user finded';
+    ctx.status = 400;
+    return;
+  }
   ctx.body = {
     user: user,
     id: ctx.state.user.sub,
