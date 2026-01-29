@@ -1,5 +1,4 @@
 const Router = require('koa-router');
-const characters = require('./routes/characters.js');
 const users = require('./routes/users.js');
 const authRoutes = require('./routes/authentication.js');
 const jwtMiddleware = require('koa-jwt'); // Para proteger rutas
@@ -12,7 +11,6 @@ dotenv.config();
 // especifico buscado.
 
 const router = new Router();
-router.use('/characters', characters.routes());
 router.use(authRoutes.routes());
 
 // Las rutas protegidas empiezan desde la siguiente linea de codigo

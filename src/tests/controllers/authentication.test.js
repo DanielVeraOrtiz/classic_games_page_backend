@@ -25,7 +25,7 @@ afterAll(async () => await closeDatabase());
 //   });
 // });
 
-describe.skip('POST /signup', () => {
+describe('POST /signup', () => {
   test('crea un usuario y retorna credenciales JWT válidas', async () => {
     const response = await request(app.callback())
       .post('/signup')
@@ -75,7 +75,7 @@ describe.skip('POST /signup', () => {
   });
 });
 
-describe.skip('POST /login', () => {
+describe('POST /login', () => {
   test('se loguea exitosamente', async () => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash('Password1$', saltRounds);

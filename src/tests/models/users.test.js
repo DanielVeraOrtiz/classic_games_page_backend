@@ -14,7 +14,7 @@ beforeEach(async () => await resetDatabase());
 
 afterAll(async () => await closeDatabase());
 
-describe.skip('crear usuarios probando rellenar todos los campos y solo rellenar algunos', () => {
+describe('crear usuarios probando rellenar todos los campos y solo rellenar algunos', () => {
   test('crear un usuario válido', async () => {
     const user = await createUser();
     expect(user.username).toBeDefined();
@@ -33,7 +33,7 @@ describe.skip('crear usuarios probando rellenar todos los campos y solo rellenar
   });
 });
 
-describe.skip('validaciones username diferentes a dejar el campo en blanco', () => {
+describe('validaciones username diferentes a dejar el campo en blanco', () => {
   test('crear un usuario valido con username en caracteres alfanumericos', async () => {
     const user = await createUser();
 
@@ -52,7 +52,7 @@ describe.skip('validaciones username diferentes a dejar el campo en blanco', () 
   });
 });
 
-describe.skip('validaciones email diferentes a dejar el campo en blanco', () => {
+describe('validaciones email diferentes a dejar el campo en blanco', () => {
   test('crear usuario valido con email con @', async () => {
     const user = await createUser();
 
@@ -71,7 +71,7 @@ describe.skip('validaciones email diferentes a dejar el campo en blanco', () => 
   });
 });
 
-describe.skip('validaciones a password diferentes a dejar el campo en blanco', () => {
+describe('validaciones a password diferentes a dejar el campo en blanco', () => {
   test('crear un usuario valido con una password con letra, numero y caracter especial', async () => {
     const user = await createUser();
 
@@ -100,7 +100,7 @@ describe.skip('validaciones a password diferentes a dejar el campo en blanco', (
   });
 });
 
-describe.skip('comportamiento no esperado de borrado en cascada', () => {
+describe('comportamiento no esperado de borrado en cascada', () => {
   test('borrar un usuario NO borra un juego', async () => {
     const user = await createUser();
     const game = await createGame();

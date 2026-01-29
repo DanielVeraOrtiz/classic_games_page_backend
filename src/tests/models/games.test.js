@@ -12,7 +12,7 @@ beforeEach(async () => await resetDatabase());
 
 afterAll(async () => await closeDatabase());
 
-describe.skip('testear la creacion correcta de un videojuego y que falle cuando falte un dato', () => {
+describe('testear la creacion correcta de un videojuego y que falle cuando falte un dato', () => {
   test('crear un juego valido', async () => {
     const game = await createGame();
     expect(game.title).toBeDefined();
@@ -35,7 +35,7 @@ describe.skip('testear la creacion correcta de un videojuego y que falle cuando 
   });
 });
 
-describe.skip('probar que no deja guardar dos juegos con el mismo id', () => {
+describe('probar que no deja guardar dos juegos con el mismo id', () => {
   test('error al crear dos juegos con el mismo id', async () => {
     const game = await createGame({ id: 1 });
     expect(game.title).toBeDefined();
@@ -43,7 +43,7 @@ describe.skip('probar que no deja guardar dos juegos con el mismo id', () => {
   });
 });
 
-describe.skip('comportamiento no esperado de borrado en cascada', () => {
+describe('comportamiento no esperado de borrado en cascada', () => {
   test('borrar un juego No borra usuarios', async () => {
     const user = await createUser();
     const game = await createGame();

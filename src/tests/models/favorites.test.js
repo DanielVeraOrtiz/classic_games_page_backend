@@ -8,7 +8,7 @@ beforeEach(async () => await resetDatabase());
 
 afterAll(async () => await closeDatabase());
 
-describe.skip('creacion de valida de favorito y errores por campos sin rellenar', () => {
+describe('creacion de valida de favorito y errores por campos sin rellenar', () => {
   test('creacion valida de favorito', async () => {
     const user = await createUser();
     const game = await createGame();
@@ -29,7 +29,7 @@ describe.skip('creacion de valida de favorito y errores por campos sin rellenar'
   });
 });
 
-describe.skip('error por no usar ids de user y games verdaderos, probar asociaciones', () => {
+describe('error por no usar ids de user y games verdaderos, probar asociaciones', () => {
   test('error por user id que no existe en la bdd', async () => {
     const game = await createGame();
     await expect(createFavorite(1, game.id)).rejects.toThrow(ForeignKeyConstraintError);
@@ -41,7 +41,7 @@ describe.skip('error por no usar ids de user y games verdaderos, probar asociaci
   });
 });
 
-describe.skip('probar que las multiplicidades con game y user funcione bien', () => {
+describe('probar que las multiplicidades con game y user funcione bien', () => {
   test('error por guardar dos veces el mismo par de user y games ids', async () => {
     const user = await createUser();
     const game = await createGame();
@@ -73,7 +73,7 @@ describe.skip('probar que las multiplicidades con game y user funcione bien', ()
   });
 });
 
-describe.skip('probar los delete en cascada', () => {
+describe('probar los delete en cascada', () => {
   test('borrar un usuario borra sus favoritos', async () => {
     const user = await createUser();
     const game = await createGame();

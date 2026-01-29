@@ -14,7 +14,7 @@ beforeEach(async () => {
 
 afterAll(async () => await closeDatabase());
 
-describe.skip('GET /users/', () => {
+describe('GET /users/', () => {
   test('obtiene todos los usuarios de forma exitosa', async () => {
     const token = createToken(['user', 'admin'], 1, '24h');
 
@@ -66,7 +66,7 @@ describe.skip('GET /users/', () => {
   });
 });
 
-describe.skip('GET users/:id', () => {
+describe('GET users/:id', () => {
   test('obtengo el usuario de id 3', async () => {
     const token = createToken(['user', 'admin'], 1, '24h');
 
@@ -129,7 +129,7 @@ describe.skip('GET users/:id', () => {
   });
 });
 
-describe.skip('GET /users/auth/me', () => {
+describe('GET /users/auth/me', () => {
   test('obtengo los datos del usuario con token valido', async () => {
     const token = createToken(['user'], 1, '24h');
 
