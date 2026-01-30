@@ -2,6 +2,9 @@ const { Game } = require('../../models');
 
 let counter = 1;
 
+// El id se manda manual al crear en la bdd, por lo tanto no se resetean estos indices
+// con el .sync de la función resetDatabase. Eso me dio problema de hecho y tuve que sobrescribirlo
+// por el i del for i...
 function buildGame(overrides = {}) {
   return {
     id: counter,

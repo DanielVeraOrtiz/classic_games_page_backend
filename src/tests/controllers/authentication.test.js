@@ -1,4 +1,3 @@
-// src/tests/controllers/characters.test.js
 const request = require('supertest');
 const app = require('../../app');
 const { buildUser, createUser } = require('../factories/user.factory');

@@ -1,6 +1,3 @@
-// En ningun modelo exporto sequelize. Sin embargo, sequelize es la instancia de conexion.
-// Por lo que esta bien asi.
-
 // Faltarian test cuando se tengan mas validaciones de largo min y maximo por ejemplo.
 // Tambien test de intentar meter otro tipo de dato en los campos y que de toThrow(DatabaseError)
 // (opcional en este caso)
