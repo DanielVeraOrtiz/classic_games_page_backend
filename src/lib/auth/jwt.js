@@ -14,30 +14,57 @@ dotenv.config();
 // en este caso conviene ver si tiene el token correcto y si no pa fuera. En caso que lo tenga entonces
 // next al codigo dentro del handler.
 
-const isUser = async (ctx, next) => {
-  ctx.assert(ctx.state.user.scope.includes('user'), 403, 'You are not a user');
-  await next();
-};
+// Practicamente no la uso, es la bse de cualquier token
+// const isUser = async (ctx, next) => {
+//   ctx.assert(ctx.state.user.scope.includes('user'), 403, 'You are not a user');
+//   await next();
+// };
 
 const isAdmin = async (ctx, next) => {
   ctx.assert(ctx.state.user.scope.includes('admin'), 403, 'You are not a admin');
   await next();
 };
 
-const authMiddleware = async (ctx, next) => {
-  const auth = ctx.request.header.authorization;
-  ctx.assert(auth, 401, 'Missing Authorization header');
+// En el video practicamente hacian esto y el koa-jwt, resulta que koa-jwt hace esto y lo setea en
+// ctx.state.user
+// const authMiddleware = async (ctx, next) => {
+//   const auth = ctx.request.header.authorization;
+//   ctx.assert(auth, 401, 'Missing Authorization header');
 
-  const token = auth.split(' ')[1];
+//   const token = auth.split(' ')[1];
 
-  try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
-    ctx.state.user = payload;
-    await next();
-  } catch (err) {
-    console.error('Error: ', err);
-    ctx.status = 401;
-  }
+//   try {
+//     const payload = jwt.verify(token, process.env.JWT_SECRET);
+//     ctx.state.user = payload;
+//     await next();
+//   } catch (err) {
+//     console.error('Error: ', err);
+//     ctx.status = 401;
+//   }
+// };
+
+const createToken = (arrayScope, userId, expiresIn) => {
+  // ===================== JWT =====================
+  // Payload: información que se incluye dentro del token.
+  // NO está cifrada, solo firmada.
+  const payload = {
+    scope: arrayScope,
+  };
+
+  // Secret: clave privada del backend (NUNCA va al cliente)
+  const secret = process.env.JWT_SECRET;
+
+  // Opciones del token
+  const options = {
+    subject: userId.toString(), // "sub": id del usuario
+    expiresIn: expiresIn, // expiración
+  };
+
+  // Firma del JWT:
+  // header + payload + secret -> signature
+  const token = jwt.sign(payload, secret, options);
+  return token;
+  // ==============================================
 };
 
-module.exports = { authMiddleware, isUser, isAdmin };
+module.exports = { isAdmin, createToken };

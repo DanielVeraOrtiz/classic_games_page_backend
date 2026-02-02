@@ -25,12 +25,12 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
                 <span class='fraction'>0/0</span>
             </div>
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
@@ -83,46 +83,46 @@
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const Router = <span class="cstat-no" title="statement not covered" >require('koa-router');</span>
-const authUtils = <span class="cstat-no" title="statement not covered" >require('../lib/auth/jwt');</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// const Router = require('koa-router');
+// const authUtils = require('../lib/auth/jwt');
 &nbsp;
-const router = <span class="cstat-no" title="statement not covered" >new Router();</span>
+// const router = new Router();
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.get('/protecteduser', authUtils.isUser, <span class="fstat-no" title="function not covered" >as</span>ync (ctx) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  ctx.body = {</span>
-    message: 'Bienvenido a la ruta protegida con el scope user!',
-    user: ctx.state.user,
-  };
-});
+// router.get('/protecteduser', authUtils.isUser, async (ctx) =&gt; {
+//   ctx.body = {
+//     message: 'Bienvenido a la ruta protegida con el scope user!',
+//     user: ctx.state.user,
+//   };
+// });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >router.get('/protectedadmin', authUtils.isAdmin, <span class="fstat-no" title="function not covered" >as</span>ync (ctx) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  ctx.body = {</span>
-    message: 'Bienvenido a la ruta protegida con el scope admin!',
-    user: ctx.state.user,
-  };
-});
+// router.get('/protectedadmin', authUtils.isAdmin, async (ctx) =&gt; {
+//   ctx.body = {
+//     message: 'Bienvenido a la ruta protegida con el scope admin!',
+//     user: ctx.state.user,
+//   };
+// });
 &nbsp;
-<span class="cstat-no" title="statement not covered" >module.exports = router;</span>
+// module.exports = router;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -130,7 +130,7 @@ const router = <span class="cstat-no" title="statement not covered" >new Router(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-25T16:05:04.098Z
+                at 2026-01-29T23:51:31.263Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -16,9 +16,23 @@ module.exports = (sequelize, DataTypes) => {
   }
   Game.init(
     {
-      title: DataTypes.STRING,
-      imgUrl: DataTypes.STRING,
-      category: DataTypes.STRING,
+      id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+      },
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      imgUrl: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      category: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       sequelize,

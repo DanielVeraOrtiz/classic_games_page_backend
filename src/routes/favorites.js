@@ -1,15 +1,20 @@
 const Router = require('koa-router');
 // Mejor importar el modelo que usar ctx.orm.model
-const { User, Favorite, Game } = require('../models');
-const { authMiddleware } = require('../lib/auth/jwt');
+const { Favorite, Game } = require('../models');
 const router = new Router();
 
-router.get('/me', authMiddleware, async (ctx) => {
+router.get('/me', async (ctx) => {
   try {
     const userFavorites = await Favorite.findAll({
       where: { user_id: ctx.state.user.sub },
       include: { model: Game, as: 'game' },
     });
+    if (userFavorites.length === 0) {
+      ctx.status = 400;
+      ctx.body = 'Favorites not found';
+      return;
+    }
+
     ctx.body = userFavorites;
     ctx.status = 200;
   } catch (err) {
@@ -18,7 +23,7 @@ router.get('/me', authMiddleware, async (ctx) => {
   }
 });
 
-router.get('/:gameid', authMiddleware, async (ctx) => {
+router.get('/:gameid', async (ctx) => {
   try {
     const favorite = await Favorite.findOne({
       where: {
@@ -26,19 +31,18 @@ router.get('/:gameid', authMiddleware, async (ctx) => {
         game_id: ctx.params.gameid,
       },
     });
-    console.log(favorite);
     if (!favorite) {
       ctx.throw(404, 'Favorite not found');
     }
     ctx.body = favorite;
-    ctx.status = 201;
+    ctx.status = 200;
   } catch (error) {
     ctx.body = error;
     ctx.status = 400;
   }
 });
 
-router.post('/', authMiddleware, async (ctx) => {
+router.post('/', async (ctx) => {
   try {
     const [game, createdGame] = await Game.findOrCreate({
       where: { id: ctx.request.body.game_id },
@@ -61,7 +65,7 @@ router.post('/', authMiddleware, async (ctx) => {
   }
 });
 
-router.delete('/:id', authMiddleware, async (ctx) => {
+router.delete('/:id', async (ctx) => {
   try {
     const deletedCount = await Favorite.destroy({
       where: {
@@ -72,11 +76,12 @@ router.delete('/:id', authMiddleware, async (ctx) => {
 
     if (deletedCount === 0) {
       ctx.status = 404;
-      ctx.body = { error: 'Favorite not fount' };
+      ctx.body = { error: 'Favorite not found' };
       return;
     }
 
-    ctx.status = 204;
+    ctx.status = 200;
+    ctx.body = deletedCount;
   } catch (err) {
     ctx.body = { error: 'Internal server error' };
     ctx.status = 500;
