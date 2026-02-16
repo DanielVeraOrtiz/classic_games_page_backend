@@ -8,6 +8,7 @@
   "dependencies": {
     "@koa/cors": "^5.0.0",
     "bcrypt": "^6.0.0",
+    "crypto": "^1.0.1",
     "dotenv": "^17.2.3",
     "jsonwebtoken": "^9.0.3",
     "koa": "^3.1.1",
@@ -33,6 +34,7 @@
   "scripts": {
     "start": "NODE_ENV=production node src/index.js",
     "dev": "NODE_ENV=development nodemon src/index.js",
+    "dev:test": "NODE_ENV=test nodemon src/index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --check .",
