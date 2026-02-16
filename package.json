@@ -8,6 +8,7 @@
   "dependencies": {
     "@koa/cors": "^5.0.0",
     "bcrypt": "^6.0.0",
+    "crypto": "^1.0.1",
     "dotenv": "^17.2.3",
     "jsonwebtoken": "^9.0.3",
     "koa": "^3.1.1",
@@ -20,8 +21,27 @@
     "sequelize": "^6.37.7",
     "sequelize-cli": "^6.6.3"
   },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.1.0",
+    "jest": "^30.2.0",
+    "prettier": "3.8.1",
+    "supertest": "^7.2.2"
+  },
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "start": "NODE_ENV=production node src/index.js",
+    "dev": "NODE_ENV=development nodemon src/index.js",
+    "dev:test": "NODE_ENV=test nodemon src/index.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "test": "NODE_ENV=test sequelize db:migrate && jest --verbose --silent --runInBand",
+    "coverage": "NODE_ENV=test sequelize db:migrate && jest --coverage --silent --runInBand",
+    "test:watch": "npm run test -- --watch",
+    "test:watch:all": "npm run test -- --watchAll"
   }
 }
