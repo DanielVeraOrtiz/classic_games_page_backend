@@ -47,7 +47,7 @@ if (process.env.NODE_ENV === 'test' && process.env.ENABLE_TEST_ROUTES === 'true'
     };
   });
 
-  router.post('/api/test/users/:id', async (ctx) => {
+  router.delete('/api/test/users/:id', async (ctx) => {
     try {
       if (ctx.headers['x-test-token'] !== process.env.TEST_TOKEN) {
         ctx.status = 401;
@@ -89,7 +89,7 @@ if (process.env.NODE_ENV === 'test' && process.env.ENABLE_TEST_ROUTES === 'true'
     ctx.status = 201;
   });
 
-  router.post('/api/test/games/:id', async (ctx) => {
+  router.delete('/api/test/games/:id', async (ctx) => {
     try {
       if (ctx.headers['x-test-token'] !== process.env.TEST_TOKEN) {
         ctx.status = 401;
@@ -124,7 +124,7 @@ if (process.env.NODE_ENV === 'test' && process.env.ENABLE_TEST_ROUTES === 'true'
     ctx.status = 201;
   });
 
-  router.post('/api/test/favorites/:id', async (ctx) => {
+  router.delete('/api/test/favorites/:id', async (ctx) => {
     try {
       if (ctx.headers['x-test-token'] !== process.env.TEST_TOKEN) {
         ctx.status = 401;
