@@ -1,4 +1,4 @@
-# 🟢 Backend - Classic Games Page
+# 🟢 Backend - Classic Games Platform - Daniel Vera
 
 API REST desarrollada con Node.js y Koa que gestiona autenticación de usuarios y persistencia de favoritos.
 
