@@ -16,9 +16,23 @@ app.context.orm = orm;
 // Cors para poder acceder desde el frontend.
 // Se retoco ahora para que no quedara cors(), aqui se define el origen del que consumira y los
 // headers que se permiten, tambien se puede configurar las credenciales.
+const allowedOrigins = ['http://localhost:5173', 'https://classic-games-page.vercel.app'];
+
 app.use(
   cors({
-    origin: '*',
+    origin: (ctx) => {
+      const requestOrigin = ctx.request.header.origin;
+
+      if (
+        !requestOrigin ||
+        allowedOrigins.includes(requestOrigin) ||
+        requestOrigin.endsWith('.vercel.app')
+      ) {
+        return requestOrigin; // permitido
+      }
+
+      return ''; // bloqueado
+    },
     allowHeaders: ['Content-Type', 'Authorization'],
   }),
 );
