@@ -1,4 +1,4 @@
-# 🟢 Backend - Classic Games Platform
+# 🟢 Backend - Classic Games Page
 
 API REST desarrollada con Node.js y Koa que gestiona autenticación de usuarios y persistencia de favoritos.
 
@@ -34,3 +34,9 @@ La API cuenta con testing de integración utilizando:
 - Supertest
 
 ![Coverage test](public/testUnitarioIntegracion.png)
+
+## 🚧 Tareas faltantes a corto plazo
+
+- Usar Postman Documenter para hacer una documentación de cada endpoint de la API.
+
+---
