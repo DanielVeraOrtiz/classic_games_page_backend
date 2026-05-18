@@ -1,0 +1,56 @@
+# Producción local: API + PostgreSQL
+# Uso: docker compose -f docker-compose.prod.yml up --build -d
+# Requiere archivo .env (copiar desde .env.example)
+
+services:
+  db:
+  # Imagen sin build, descarga de registry.
+    image: postgres:16-alpine
+    #si el proceso muere o reinicia el host, levántalo de nuevo automáticamente.
+    restart: unless-stopped
+    # Uso de las envs solicitadas por la imagen para crear bdd
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}_production
+    # Persistencia de datos
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    # healthcheck para probar que funciona con el comando de test, empieza luego de 10s, en intervalos de 5s,
+    # y intenta el comando por 5s, en un bucle de 10 intentos. Si pasa 1, entonces satisface y se dice que esta healthy
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  app:
+    image: classic_games_page_backend:prod
+    build:
+      # Todo el proyecto
+      context: .
+      # Dockerfile para la imagen de prod
+      dockerfile: Dockerfile
+    # Restart de nuevo por si algo le pasa al sistema anfitrión
+    restart: unless-stopped
+    # Port a 3000, sino existe port entonces de 3000 a 3000
+    ports:
+      - '${PORT:-3000}:3000'
+    # Inyecta las envs del archivo al contenedor en runtime
+    env_file:
+      - .env
+    # Docker DNS resuelve "db" al contenedor del servicio db
+    environment:
+      NODE_ENV: production
+      DB_HOST: db
+      PORT: 3000
+
+    # Antes de todo esperar a la condición healthy de la bd
+    depends_on:
+      db:
+        condition: service_healthy
+
+# volumenes a controlar por docker.
+volumes:
+  postgres_prod_data:

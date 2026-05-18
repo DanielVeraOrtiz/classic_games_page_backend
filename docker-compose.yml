@@ -1,0 +1,74 @@
+# Desarrollo: API con hot-reload + PostgreSQL
+# Uso: docker compose up --build
+
+services:
+  db:
+    # Imagen base de PostgreSQL, sin build significa que se descarga del registry si no existe en mi equipo.
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}_development
+    ports:
+      - '5732:5432'
+
+    # Persistir los datos en una carpeta fuera del contenedor administrada por docker.
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+
+    # Healthcheck para verificar si el contenedor esta funcionando.
+    # pg_isready es oficial de postgres para preguntar si la bdd ya acepta conexiones, entonces
+    # preguntaa si esta lista la bdd con user POSTGRES_USER y DB POSTGRES_DB.
+    # Con una vez que diga que esta lista, pasa el healthcheck.
+    healthcheck:
+      # Doble $$ para escapar usar variable de entorno y usarlo en la shell
+      test: ['CMD-SHELL', 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
+      # Intervalo de 5 segundos para volver a intentar la conexión.
+      interval: 5s
+      # Timeout de 5 segundos para la conexión.
+      timeout: 5s
+      # Retries de 10 intentos para la conexión.
+      retries: 10
+      # Start period de 10 segundos para la conexión.
+      start_period: 10s
+
+  app:
+    image: classic_games_page_backend:dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+
+    # Si existe entonces la env PORT se usa, sino se usa 3000.
+    # Es posible que por default tenga el 0.0.0.0 al escuchar. Dado que mi sistema y el contenedor son distintos,
+    # su localhost es distinto y a falta de lo anterior, el contenedor escucha en el 3000 para conexiones dentro del mismo contenedor
+    # el 0.0.0.0 explicita que escuche en TODAS las interfaces de red: localhost interno, red docker, interfaces bridge y conexiones externas.
+    ports:
+      - '${PORT:-3000}:3000'
+
+    # En algún punto entendí que siempre leia .env y no .env.development y cosa así. Pero ahora me di cuenta
+    # con env_file puedo especificar donde buscar las variables de entorno que usa aquí.
+    env_file:
+      # Copia el archivo .env a la imagen.
+      - .env
+    environment:
+      NODE_ENV: development
+      # Compose crea una red virtual interna, docker además crea DNS interno y al colocar db en host resuelve a ip interna
+      # del contenedor postgres.
+      DB_HOST: db
+      PORT: 3000
+
+    # Binds mounts para bindear el código fuente de la app y el .sequelizerc que mapea rutas de archivos.
+    # No es necesario un volume de node_modules para escapar el bind mount, debido a que queda fuera de src.
+    # Aunque quizá puede ser mejor un volume para node_modules y un bind mount completo del proyecto, porque 
+    # ahora cualquier archivo fuera de src que cambie necesitaria un rebuild de la imagen.
+    volumes:
+      - ./src:/app/src
+      - ./.sequelizerc:/app/.sequelizerc
+    # command: ['./scripts/docker-entrypoint.dev.sh']
+    # Con condition service_healthy, se espera a que el healthcheck del contenedor db pase.
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_dev_data:
