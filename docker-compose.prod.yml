@@ -34,9 +34,7 @@ services:
       dockerfile: Dockerfile
     # Restart de nuevo por si algo le pasa al sistema anfitrión
     restart: unless-stopped
-    # Port a 3000, sino existe port entonces de 3000 a 3000
-    ports:
-      - '${PORT:-3000}:3000'
+    # Sacamos para meter Caddy para HTTPS
     # Inyecta las envs del archivo al contenedor en runtime
     env_file:
       - .env
@@ -51,6 +49,24 @@ services:
       db:
         condition: service_healthy
 
+  caddy:
+    image: caddy:2
+
+    ports:
+      - "80:80"
+      - "443:443"
+
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+    depends_on:
+      - app
+
+
 # volumenes a controlar por docker.
 volumes:
   postgres_prod_data:
+  caddy_data:
+  caddy_config:
