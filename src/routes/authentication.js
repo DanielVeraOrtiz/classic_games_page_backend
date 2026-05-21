@@ -86,7 +86,7 @@ router.post('authentication.login', '/login', async (ctx) => {
       token_type: 'Bearer',
       expires_in: 24 * 60 * 60,
     };
-  } catch (error) {
+  } catch {
     ctx.body = 'Could not sign in';
     ctx.status = 400;
     return;

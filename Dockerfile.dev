@@ -1,0 +1,26 @@
+# Imagen base liviana para desarrollo
+FROM node:22-alpine
+
+# Directorio de trabajo, todos los comandos se ejecutarán desde este directorio
+WORKDIR /app
+
+# Copia los  package para instalar dependencias con ci para instalar las dependencias exactas
+# que se encuentran en el lock.
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# Puede no tener sentido realizando un bind mount. Sin embargo, en el mismo build necesito el archivo
+# sh y con ello archivos de migraciones y demas, con tal de ejecutar en el sh el npx sequelize-cli db:migrate.
+COPY . .
+
+# chmod de Change Mode, el +x es para agregar permiso de ejecución para ejecutarse como programa/script.
+RUN chmod +x scripts/docker-entrypoint.dev.sh
+
+# Tipico Node_env development por librerias o cosas que lo usen
+ENV NODE_ENV=development
+
+# Solo para documentar que se expone el puerto 3000, pero esta sentencia no lo expone.
+EXPOSE 3000
+
+# Aquí si ejecuta el script. Que básicamente es migrar la bdd y luego el npm run dev.
+CMD ["./scripts/docker-entrypoint.dev.sh"]
