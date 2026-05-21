@@ -46,7 +46,7 @@ app.use(koaBody());
 app.use(router.routes());
 
 // Middleware personalizado. Encargado de dar respuesta "Hola Mundo".
-app.use((ctx, next) => {
+app.use((ctx) => {
   ctx.body = 'Hola Mundo';
 });
 

@@ -44,7 +44,7 @@ router.get('/:gameid', async (ctx) => {
 
 router.post('/', async (ctx) => {
   try {
-    const [game, createdGame] = await Game.findOrCreate({
+    await Game.findOrCreate({
       where: { id: ctx.request.body.game_id },
       defaults: {
         id: ctx.request.body.game_id,
@@ -82,7 +82,7 @@ router.delete('/:id', async (ctx) => {
 
     ctx.status = 200;
     ctx.body = deletedCount;
-  } catch (err) {
+  } catch {
     ctx.body = { error: 'Internal server error' };
     ctx.status = 500;
   }

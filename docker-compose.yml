@@ -59,7 +59,7 @@ services:
 
     # Binds mounts para bindear el código fuente de la app y el .sequelizerc que mapea rutas de archivos.
     # No es necesario un volume de node_modules para escapar el bind mount, debido a que queda fuera de src.
-    # Aunque quizá puede ser mejor un volume para node_modules y un bind mount completo del proyecto, porque 
+    # Aunque quizá puede ser mejor un volume para node_modules y un bind mount completo del proyecto, porque
     # ahora cualquier archivo fuera de src que cambie necesitaria un rebuild de la imagen.
     volumes:
       - ./src:/app/src

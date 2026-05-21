@@ -4,7 +4,7 @@
 
 services:
   db:
-  # Imagen sin build, descarga de registry.
+    # Imagen sin build, descarga de registry.
     image: postgres:16-alpine
     #si el proceso muere o reinicia el host, levántalo de nuevo automáticamente.
     restart: unless-stopped
@@ -53,8 +53,8 @@ services:
     image: caddy:2
 
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
 
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
@@ -63,7 +63,6 @@ services:
 
     depends_on:
       - app
-
 
 # volumenes a controlar por docker.
 volumes:
