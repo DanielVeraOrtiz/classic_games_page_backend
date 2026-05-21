@@ -42,6 +42,15 @@
     "test": "NODE_ENV=test sequelize db:migrate && jest --verbose --silent --runInBand",
     "coverage": "NODE_ENV=test sequelize db:migrate && jest --coverage --silent --runInBand",
     "test:watch": "npm run test -- --watch",
-    "test:watch:all": "npm run test -- --watchAll"
+    "test:watch:all": "npm run test -- --watchAll",
+    "docker:prod:up": "docker compose -f docker-compose.prod.yml up",
+    "docker:prod:build": "docker compose -f docker-compose.prod.yml up --build",
+    "docker:prod:down": "docker compose -f docker-compose.prod.yml down",
+    "docker:prod:stop": "docker compose -f docker-compose.prod.yml stop",
+    "docker:prod:logs": "docker compose -f docker-compose.prod.yml logs -f app",
+    "docker:dev:up": "docker compose up --build",
+    "docker:dev:down": "docker compose down",
+    "docker:dev:stop": "docker compose stop",
+    "docker:dev:logs": "docker compose logs -f app"
   }
 }
