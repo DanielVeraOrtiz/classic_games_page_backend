@@ -137,10 +137,7 @@ Características:
 ## 🚧 Tareas faltantes a corto plazo
 
 - Documentación completa de endpoints con Postman Documenter
-- Configuración HTTPS completa en VPS propio
 - Versionado automatizado de imágenes Docker
-- Implementación de ambientes staging/production
-- Monitoreo básico y logs centralizados
 
 ---
 
