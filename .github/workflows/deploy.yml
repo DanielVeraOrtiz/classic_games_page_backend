@@ -1,77 +1,109 @@
+# Nombre visible del workflow en GitHub Actions
 name: Deploy Backend
 
+# Evento que dispara el workflow
 on:
   push:
     branches:
-      - dev
+      - main # Ejecutar solo cuando haya push a main
 
 jobs:
+  # Job principal del pipeline
   deploy:
+    # Runner Linux que ejecutará el workflow
     runs-on: ubuntu-latest
 
+    # Variables de entorno usadas durante CI/testing
     env:
-      DB_USERNAME: postgres
-      DB_PASSWORD: postgres
-      DB_NAME: cgp
-      DB_HOST: localhost
-      PORT: 3000
-      JWT_SECRET: test_jwt_secret
+      DB_USERNAME: postgres # Usuario postgres de testing
+      DB_PASSWORD: postgres # Password postgres de testing
+      DB_NAME: cgp # Nombre base DB (Sequelize agrega _test)
+      DB_HOST: localhost # Host postgres service
+      PORT: 3000 # Puerto app
+      JWT_SECRET: test_jwt_secret # Secret JWT para tests
 
+    # Servicios auxiliares levantados durante el workflow (sintaxis parecida a compose de docker)
+    # Inclusa usa contenedor docker por detras.
     services:
       postgres:
-        image: postgres:16
+        image: postgres:16 # Imagen oficial postgres
+
+        # Variables internas del contenedor postgres con nombres estándar
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: cgp_test
+
+        # Mapeo puertos runner -> contenedor
         ports:
           - 5432:5432
+
+        # Healthcheck para esperar DB lista
         options: >-
           --health-cmd="pg_isready -U postgres"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
 
+    # Pasos secuenciales del pipeline
     steps:
+      # Descargar código del repositorio
       - name: Checkout repository
+        # Action reutilizable publicada en github que cumple una tarea, en este caso son un repo
+        # con código para cumplir con algo. En este caso esta hace git clone, checkout branch y deja
+        # repo disponible.
         uses: actions/checkout@v4
 
+      # Instalar versión Node del proyecto
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
+      # Instalar dependencias package-lock exactas
       - name: Install dependencies
         run: npm ci
 
+      # Ejecutar ESLint
       - name: Run lint
         run: npm run lint
 
+      # Ejecutar tests + migraciones test DB
       - name: Run tests
         run: npm run test
 
+      # Login Docker Hub usando secrets GitHub
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      # Construir imagen Docker producción y version actual para dejar registro
       - name: Build Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/cgp_backend:production .
+          docker build \
+            -t ${{ secrets.DOCKER_USERNAME }}/cgp_backend:production \
+            -t ${{ secrets.DOCKER_USERNAME }}/cgp_backend:${{ github.sha }} \
+            .
 
+      # Subir imágenes al registry Docker Hub
       - name: Push Docker image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/cgp_backend:production
+          docker push ${{ secrets.DOCKER_USERNAME }}/cgp_backend:${{ github.sha }}
 
+      # Conectarse vía SSH al VPS y desplegar
       - name: Deploy on VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          port: 2442
+          host: ${{ secrets.VPS_HOST }} # IP VPS
+          username: ${{ secrets.VPS_USER }} # Usuario SSH
+          key: ${{ secrets.VPS_SSH_KEY }} # Private SSH key
+          port: 2442 # Puerto SSH público forwardeado
+
+          # Script ejecutado remotamente en VPS
           script: |
-            cd ~/app
-            docker compose pull
-            docker compose up -d
+            cd ~/app # Ir carpeta proyecto
+            docker compose pull # Descargar nueva imagen
+            docker compose up -d # Recrear contenedores
